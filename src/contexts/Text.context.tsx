@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { createContext } from "react";
 
-type Person = {
+export type Person = {
   name: string;
   age: number;
 };
@@ -12,9 +12,13 @@ const person: Person = {
   age: 31,
 };
 
-const TextContext = createContext<Person>(person);
+export const TextContext: any = createContext<Person>(person);
 
-const Text = () => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const PersonSettings: React.FC<Props> = ({ children }) => {
   //
   const [name, setName] = useState<string>(person.name);
   const [age, setAge] = useState<number>(person.age);
@@ -24,7 +28,9 @@ const Text = () => {
     actions: { setName, setAge },
   };
 
-  return <TextContext.Provider value={personValue}></TextContext.Provider>;
+  return (
+    <TextContext.Provider value={personValue}>{children}</TextContext.Provider>
+  );
 };
 
-export default Text;
+export default PersonSettings;
